@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Control_Material</string>
+    <string name="sesion">Iniciar Sesisón</string>
+    <string name="regis">Registrarse</string>
+</resources>
