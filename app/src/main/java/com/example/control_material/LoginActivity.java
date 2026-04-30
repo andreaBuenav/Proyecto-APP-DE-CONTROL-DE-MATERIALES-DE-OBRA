@@ -42,10 +42,21 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(v.getContext(),"Acceso Concedido" , Toast.LENGTH_LONG).show();
             Intent paginaprincipal = new Intent(v.getContext(), MainActivity.class);
             startActivity(paginaprincipal);
+<<<<<<< HEAD
         }else{
             Toast.makeText(v.getContext(),"Datos Incorrectos", Toast.LENGTH_LONG).show();
         }
 
 
+=======
+        }else {
+            Toast.makeText(v.getContext(), "Datos Incorrectos", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void registrarse(View v){
+        Intent registro = new Intent(v.getContext(), SignUpActivity.class);
+        startActivity(registro);
+>>>>>>> e5f35da (pantalla de registro)
     }
 }

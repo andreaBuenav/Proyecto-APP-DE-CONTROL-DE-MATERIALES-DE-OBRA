@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Control_Material">
         <activity
+<<<<<<< HEAD
+=======
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+>>>>>>> e5f35da (pantalla de registro)
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
