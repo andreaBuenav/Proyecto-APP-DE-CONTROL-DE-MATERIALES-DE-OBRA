@@ -1,5 +1,23 @@
+# Gradle files
 .gradle/
-.idea/
 build/
-app/build/*.iml
+app/build/
+
+# IDE files
+.idea/
+*.iml
 local.properties
+
+# Binary files
+*.bin
+*.out
+*.apk
+*.ap_
+*.dex
+*.class
+
+# Misc
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx
