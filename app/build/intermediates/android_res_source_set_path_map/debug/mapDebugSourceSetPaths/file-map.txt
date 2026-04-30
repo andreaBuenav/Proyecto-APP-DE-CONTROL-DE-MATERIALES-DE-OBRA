@@ -1,0 +1,7 @@
+com.example.control_material.app-pngs-0 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\build\generated\res\pngs\debug
+com.example.control_material.app-updated_navigation_xml-1 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\build\generated\updated_navigation_xml\debug
+com.example.control_material.app-packageDebugResources-2 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.control_material.app-packageDebugResources-3 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.control_material.app-debug-4 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.control_material.app-debug-5 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\src\debug\res
+com.example.control_material.app-main-6 C:\Users\Andrea\Downloads\Control_Material\Control_Material\app\src\main\res

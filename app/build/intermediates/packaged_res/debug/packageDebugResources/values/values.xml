@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Control_Material</string>
+    <string name="regis">Registrarse</string>
+    <string name="sesion">Iniciar Sesisón</string>
+    <style name="Base.Theme.Control_Material" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.Control_Material" parent="Base.Theme.Control_Material"/>
+</resources>
