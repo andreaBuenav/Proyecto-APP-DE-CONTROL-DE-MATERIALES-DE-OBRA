@@ -1,6 +1,8 @@
 package com.example.control_material.inventory;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,5 +24,13 @@ public class InvInfo extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    public void registerInventory(View v){
+        Intent register = new Intent(this, InvRegister.class);
+        startActivity(register);
+    }
+    public void viewInventory(View v){
+        Intent view = new Intent(this, InvView.class);
+        startActivity(view);
     }
 }
