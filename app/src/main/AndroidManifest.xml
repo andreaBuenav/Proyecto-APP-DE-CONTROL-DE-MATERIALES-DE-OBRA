@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Control_Material">
         <activity
+            android:name=".inventory.InvRegister"
+            android:exported="true" />
+        <activity
+            android:name=".inventory.InvView"
+            android:exported="true" />
+        <activity
+            android:name=".inventory.InvInfo"
+            android:exported="true" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
