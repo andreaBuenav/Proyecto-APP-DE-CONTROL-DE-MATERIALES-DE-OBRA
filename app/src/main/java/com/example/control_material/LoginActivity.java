@@ -12,7 +12,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,10 +41,13 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(v.getContext(),"Acceso Concedido" , Toast.LENGTH_LONG).show();
             Intent paginaprincipal = new Intent(v.getContext(), MainActivity.class);
             startActivity(paginaprincipal);
-        }else{
-            Toast.makeText(v.getContext(),"Datos Incorrectos", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(v.getContext(), "Datos Incorrectos", Toast.LENGTH_LONG).show();
         }
-
-
     }
-}
+
+    public void registrarse(View v) {
+        Intent registro = new Intent(v.getContext(), SignUpActivity.class);
+        startActivity(registro);
+        }
+    }
