@@ -24,10 +24,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="InvInfo">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DialogSelection />
-      </SelectionState>
       <SelectionState runConfigName="InvView">
         <option name="selectionMode" value="DROPDOWN" />
         <DialogSelection />
