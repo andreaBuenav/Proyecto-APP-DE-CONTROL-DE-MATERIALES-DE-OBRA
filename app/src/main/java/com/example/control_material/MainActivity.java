@@ -1,24 +1,35 @@
 package com.example.control_material;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        // Inicializar
+        preferences = getSharedPreferences("datosLogin", MODE_PRIVATE);
+        editor = preferences.edit();
+
+        // Botón cerrar sesión
+        Button btnCerrar = findViewById(R.id.btnCerrarSesion);
+
+        btnCerrar.setOnClickListener(v -> {
+            editor.clear();
+            editor.apply();
+
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         });
     }
 }
