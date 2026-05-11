@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Control_Material">
         <activity
+            android:name=".activity_Reports"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity

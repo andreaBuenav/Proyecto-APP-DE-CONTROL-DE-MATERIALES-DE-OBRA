@@ -14,6 +14,41 @@
         android:padding="20dp"
         tools:context=".SignUpActivity">
 
+        <Button
+            android:id="@+id/registrarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:backgroundTint="#323F8E"
+            android:text="Registrar"
+            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <Button
+            android:id="@+id/borrarBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="4dp"
+            android:text="Borrar"
+            app:layout_constraintEnd_toStartOf="@+id/cancBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registrarBtn" />
+
+        <Button
+            android:id="@+id/cancBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Cancelar"
+            app:layout_constraintBottom_toBottomOf="@+id/borrarBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/borrarBtn"
+            app:layout_constraintTop_toTopOf="@+id/borrarBtn"
+            app:layout_constraintVertical_bias="1.0" />
+
         <TextView
             android:id="@+id/crearCuentaTitulo"
             android:layout_width="wrap_content"
@@ -187,6 +222,7 @@
                 android:focusable="false" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Nivel de Inglés -->
         <ImageButton
             android:id="@+id/fechaBtn"
             android:layout_width="56dp"
@@ -194,9 +230,11 @@
             android:src="@android:drawable/ic_menu_my_calendar"
             app:layout_constraintBottom_toBottomOf="@+id/fechaNacLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fechaNacLayout" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fechaNacLayout"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <!-- Nivel de Inglés -->
         <TextView
             android:id="@+id/nivelInglesLabel"
             android:layout_width="wrap_content"
@@ -218,40 +256,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nivelInglesLabel" />
 
-        <!-- Botones -->
-        <Button
-            android:id="@+id/registrarBtn"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtContrasenia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#323F8E"
-            android:text="Registrar"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
-            tools:layout_editor_absoluteX="20dp" />
-
-        <Button
-            android:id="@+id/borrarBtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:text="Borrar"
-            app:layout_constraintEnd_toStartOf="@+id/cancBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registrarBtn" />
-
-        <Button
-            android:id="@+id/cancBtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="Cancelar"
-            app:layout_constraintBottom_toBottomOf="@+id/borrarBtn"
+            android:hint="Contraseña"
+            app:layout_constraintBottom_toTopOf="@+id/registrarBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/borrarBtn"
-            app:layout_constraintTop_toTopOf="@+id/borrarBtn" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
+            app:layout_constraintVertical_bias="0.686" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Usuario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating" />
+
+        <!-- Botones -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
