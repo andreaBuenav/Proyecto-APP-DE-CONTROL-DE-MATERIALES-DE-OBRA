@@ -7,10 +7,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.control_material.BaseDatosSQLite;
 import com.example.control_material.R;
 
+import java.util.List;
+
 public class InvView extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private InventarioAdapter adapter;
+    private BaseDatosSQLite db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +31,17 @@ public class InvView extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        recyclerView = findViewById(R.id.invViewCard);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        db = new BaseDatosSQLite(this);
+        cargarInventario();
+    }
+
+    private void cargarInventario() {
+        List<InventarioModelo> lista = db.obtenerInventario();
+        adapter = new InventarioAdapter(lista, this);
+        recyclerView.setAdapter(adapter);
     }
 }

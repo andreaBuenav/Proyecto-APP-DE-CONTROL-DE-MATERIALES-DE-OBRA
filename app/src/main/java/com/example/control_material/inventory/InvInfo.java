@@ -25,11 +25,8 @@ public class InvInfo extends AppCompatActivity {
             return insets;
         });
     }
-    public void registerInventory(View v){
-        Intent register = new Intent(this, InvRegister.class);
-        startActivity(register);
-    }
-    public void viewInventory(View v){
+
+    public void viewInventory(View v) {
         Intent view = new Intent(this, InvView.class);
         startActivity(view);
     }

@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Botón cerrar sesión
         Button btnCerrar = findViewById(R.id.btnCerrarSesion);
+        Button btnInventario = findViewById(R.id.btnInventario);
 
         btnCerrar.setOnClickListener(v -> {
             editor.clear();
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
+        });
+
+        btnInventario.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, com.example.control_material.inventory.InvInfo.class));
         });
     }
 }
