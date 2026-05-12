@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
             }
 
-            startActivity(new Intent(LoginActivity.this, activity_Reports.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
 
         } else {
