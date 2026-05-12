@@ -3,7 +3,9 @@ package com.example.control_material;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity {
-    private TextInputEditText cedulaInput, nombresInput, apellidosInput, edadInput, fechaNacInput;
+    private TextInputEditText cedulaInput, nombresInput, apellidosInput, edadInput, fechaNacInput, usuarioInput, contraseniaInput;
     private Spinner nacionalidadSpinner, generoSpinner;
     private RadioGroup estadoCivilGroup;
     private RatingBar nivelInglesRating;
@@ -94,6 +96,8 @@ public class SignUpActivity extends AppCompatActivity {
         String nacionalidad = nacionalidadSpinner.getSelectedItem().toString();
         String genero = generoSpinner.getSelectedItem().toString();
         String fechaNac = fechaNacInput.getText().toString();
+        String usuario = usuarioInput.getText().toString();
+        String contrasenia = contraseniaInput.getText().toString();
         float nivelIngles = nivelInglesRating.getRating();
 
         int selectedId = estadoCivilGroup.getCheckedRadioButtonId();
@@ -178,4 +182,33 @@ public class SignUpActivity extends AppCompatActivity {
         nivelInglesRating.setRating(0);
         Toast.makeText(this, "Campos borrados", Toast.LENGTH_SHORT).show();
     }
+
+    public void guardarBD(String cedula, String nombres, String apellidos, String edad, String fechaNac, String nacionalidad, String genero,
+                          String estadoCivil,String usuario, String contrasenia, float nivelIng){
+        BaseDatosSQLite dbControlMaterial = new BaseDatosSQLite(this);
+        final SQLiteDatabase dbControlMaterialModoWrite = dbControlMaterial.getWritableDatabase();
+
+        if(dbControlMaterialModoWrite != null){
+            ContentValues cv = new ContentValues();
+            cv.put("cedula", cedula);
+            cv.put("nombre", nombres);
+            cv.put("apellido", apellidos);
+            cv.put("edad", edad);
+            cv.put("nacionalidad", nacionalidad);
+            cv.put("genero", genero);
+            cv.put("fechaNac", fechaNac);
+            cv.put("estadoCivil", estadoCivil);
+            cv.put("username", usuario);
+            cv.put("password", contrasenia);
+            cv.put("nivelIngles", nivelIng);
+
+            long resultado = dbControlMaterialModoWrite.insert("usuario", null, cv);
+            Toast.makeText(this, "Se ha guardado los datos en la BD", Toast.LENGTH_LONG).show();
+            Log.d("SQLITE", "ID INSERTADO: " + resultado);
+        }
+        //dbControlMaterialModoWrite.close();
+
+    }
+
+
 }

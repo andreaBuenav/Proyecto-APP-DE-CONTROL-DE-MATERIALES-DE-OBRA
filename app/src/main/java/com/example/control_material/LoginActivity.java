@@ -1,53 +1,71 @@
 package com.example.control_material;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static  final String usuario_valido ="Mario";
-    private static  final String clave_valido ="12345";
+    private static final String usuario_valido = "Mario";
+    private static final String clave_valido = "12345";
 
     TextInputEditText usuario, clave;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         usuario = findViewById(R.id.login_txtusuario);
         clave = findViewById(R.id.login_txtclave);
+
+        // 🔹 Inicializar SharedPreferences
+        preferences = getSharedPreferences("datosLogin", MODE_PRIVATE);
+        editor = preferences.edit();
+
+        // 🔹 AUTOLOGIN
+        String usuarioGuardado = preferences.getString("usuario", null);
+        String claveGuardada = preferences.getString("clave", null);
+
+        if (usuarioGuardado != null && claveGuardada != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
-    public void iniciarSesion(View v){
+    public void iniciarSesion(View v) {
+
         String usuarioT = usuario.getText().toString();
         String claveT = clave.getText().toString();
 
-        if(usuarioT.equals(usuario_valido)&& claveT.equals(clave_valido)){
-            Toast.makeText(v.getContext(),"Acceso Concedido" , Toast.LENGTH_LONG).show();
-            Intent paginaprincipal = new Intent(v.getContext(), MainActivity.class);
-            startActivity(paginaprincipal);
+        if (usuarioT.equals(usuario_valido) && claveT.equals(clave_valido)) {
+
+            CheckBox cbRecordar = findViewById(R.id.cbRecordar);
+
+            if (cbRecordar.isChecked()) {
+                editor.putString("usuario", usuarioT);
+                editor.putString("clave", claveT);
+                editor.apply();
+            }
+
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+
         } else {
-            Toast.makeText(v.getContext(), "Datos Incorrectos", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Datos Incorrectos", Toast.LENGTH_LONG).show();
         }
     }
 
     public void registrarse(View v) {
-        Intent registro = new Intent(v.getContext(), SignUpActivity.class);
-        startActivity(registro);
-        }
+        startActivity(new Intent(this, SignUpActivity.class));
     }
+}
