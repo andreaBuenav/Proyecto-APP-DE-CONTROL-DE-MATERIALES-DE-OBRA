@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Material -->
+        <TextView
+            android:id="@+id/invItemMaterial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Material"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/invItemMatValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            tools:text="Cemento Portland"
+            app:layout_constraintTop_toBottomOf="@id/invItemMaterial"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/invViewCardActions" />
+
+        <!-- Obra -->
+        <TextView
+            android:id="@+id/invViewWork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Obra"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            app:layout_constraintTop_toBottomOf="@id/invItemMatValue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/invViewWorkValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="14sp"
+            android:textColor="#555555"
+            tools:text="Edificio Central"
+            app:layout_constraintTop_toBottomOf="@id/invViewWork"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/invViewCardActions" />
+
+        <!-- Cantidad -->
+        <TextView
+            android:id="@+id/invViewAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Cantidad Disponible"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            app:layout_constraintTop_toBottomOf="@id/invViewWorkValue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/invViewAvailableValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#00796B"
+            tools:text="150"
+            app:layout_constraintTop_toBottomOf="@id/invViewAvailable"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/invViewAlertIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:src="@android:drawable/ic_dialog_alert"
+            android:visibility="gone"
+            app:tint="#757575"
+            app:layout_constraintTop_toTopOf="@id/invViewAvailableValue"
+            app:layout_constraintBottom_toBottomOf="@id/invViewAvailableValue"
+            app:layout_constraintStart_toEndOf="@id/invViewAvailableValue"
+            tools:visibility="visible" />
+
+        <!-- Actions -->
+        <LinearLayout
+            android:id="@+id/invViewCardActions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/invViewBtnEdit"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar"
+                android:textColor="#1976D2"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="12dp"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconTint="#1976D2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/invViewBtnDelete"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eliminar"
+                android:textColor="#D32F2F"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="12dp"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTint="#D32F2F" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

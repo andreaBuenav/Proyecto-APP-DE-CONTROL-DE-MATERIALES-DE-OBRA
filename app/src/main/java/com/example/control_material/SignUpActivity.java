@@ -1,5 +1,7 @@
 package com.example.control_material;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -16,6 +18,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,18 +52,19 @@ public class SignUpActivity extends AppCompatActivity {
         registrarBtn = findViewById(R.id.registrarBtn);
         borrarBtn = findViewById(R.id.borrarBtn);
         cancBtn = findViewById(R.id.cancBtn);
-        usuarioInput = findViewById(R.id.txtUsuario);
-        contraseniaInput = findViewById(R.id.txtContrasenia);
+        Button mostrarBtn = findViewById(R.id.mostrarBtn);
 
-        String[] nacionalidades = {"Ecuatoriana", "Colombiana", "Peruana", "Otra"};
-        String[] generos = {"Masculino", "Femenino", "Otro"};
+        String[] nacionalidades = { "Ecuatoriana", "Colombiana", "Peruana", "Otra" };
+        String[] generos = { "Masculino", "Femenino", "Otro" };
 
-        nacionalidadSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, nacionalidades));
+        nacionalidadSpinner
+                .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, nacionalidades));
         generoSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, generos));
 
         findViewById(R.id.fechaBtn).setOnClickListener(v -> showDatePickerDialog());
         fechaNacInput.setOnClickListener(v -> showDatePickerDialog());
         registrarBtn.setOnClickListener(v -> mostrarRegistro());
+        mostrarBtn.setOnClickListener(v -> mostrarDatosEnModal());
         borrarBtn.setOnClickListener(v -> borrarCampos());
         cancBtn.setOnClickListener(v -> regresarALogin(v));
     }
@@ -68,7 +76,8 @@ public class SignUpActivity extends AppCompatActivity {
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year1, monthOfYear, dayOfMonth) -> fechaNacInput.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1),
+                (view, year1, monthOfYear, dayOfMonth) -> fechaNacInput
+                        .setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1),
                 year, month, day);
         datePickerDialog.show();
     }
@@ -98,31 +107,67 @@ public class SignUpActivity extends AppCompatActivity {
             estadoCivil = rb.getText().toString();
         }
 
-        String info = "Cédula: " + cedula + "\n" +
-                "Nombres: " + nombres + "\n" +
-                "Apellidos: " + apellidos + "\n" +
-                "Edad: " + edad + "\n" +
-                "Nacionalidad: " + nacionalidad + "\n" +
-                "Género: " + genero + "\n" +
-                "Estado Civil: " + estadoCivil + "\n" +
-                "Fecha Nac: " + fechaNac + "\n" +
-                "Nivel Inglés: " + nivelIngles + " estrellas";
+        String info = cedula + ";" + nombres + ";" + apellidos + ";" + edad + ";" +
+                nacionalidad + ";" + genero + ";" + estadoCivil + ";" +
+                fechaNac + ";" + nivelIngles + "\n";
 
-        Log.d("REGISTRO_SISTEMA", info);
-        guardarBD(
-                cedula,
-                nombres,
-                apellidos,
-                edad,
-                fechaNac,
-                nacionalidad,
-                genero,
-                estadoCivil,
-                usuario,
-                contrasenia,
-                nivelIngles );
+        try {
+            FileOutputStream fos = openFileOutput("usuarios.txt", Context.MODE_APPEND);
+            fos.write(info.getBytes());
+            fos.close();
+            Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
+            borrarCampos();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al guardar los datos", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_SHORT).show();
+    public void mostrarDatosEnModal() {
+        try {
+            FileInputStream fis = openFileInput("usuarios.txt");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(";");
+                if (datos.length >= 9) {
+                    sb.append("Cédula: ").append(datos[0]).append("\n")
+                            .append("Nombres: ").append(datos[1]).append("\n")
+                            .append("Apellidos: ").append(datos[2]).append("\n")
+                            .append("Edad: ").append(datos[3]).append("\n")
+                            .append("Nacionalidad: ").append(datos[4]).append("\n")
+                            .append("Género: ").append(datos[5]).append("\n")
+                            .append("Estado Civil: ").append(datos[6]).append("\n")
+                            .append("Fecha Nac: ").append(datos[7]).append("\n")
+                            .append("Nivel Inglés: ").append(datos[8]).append("\n\n");
+                } else {
+                    sb.append(linea).append("\n\n");
+                }
+            }
+            fis.close();
+
+            String mensaje = sb.toString();
+            if (mensaje.isEmpty()) {
+                mensaje = "No hay datos registrados.";
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Datos Registrados")
+                    .setMessage(mensaje)
+                    .setPositiveButton("Cerrar", null)
+                    .show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("No se pudieron cargar los datos o el archivo no existe.")
+                    .setPositiveButton("Aceptar", null)
+                    .show();
+        }
     }
 
     public void borrarCampos() {

@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Control_Material">
         <activity
-            android:name=".activity_Reports"
-            android:exported="false" />
-        <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -35,6 +29,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".inventory.InvInfo"
+            android:exported="false" />
+        <activity
+            android:name=".inventory.InvView"
+            android:exported="false" />
     </application>
 
 </manifest>
