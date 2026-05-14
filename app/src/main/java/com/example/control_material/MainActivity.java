@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.control_material.entradamaterial.EntradaMaterialActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
@@ -21,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("datosLogin", MODE_PRIVATE);
         editor = preferences.edit();
 
+        Intent intent = new Intent(
+                MainActivity.this,
+                EntradaMaterialActivity.class
+        );
+
+        startActivity(intent);
         // Botón cerrar sesión
         Button btnCerrar = findViewById(R.id.btnCerrarSesion);
         Button btnInventario = findViewById(R.id.btnInventario);

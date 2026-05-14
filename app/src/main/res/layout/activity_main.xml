@@ -44,5 +44,10 @@
         app:layout_constraintTop_toBottomOf="@id/btnInventario"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="40dp"/>
+    <Button
+        android:id="@+id/btnEntradaMaterial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Entrada Material"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

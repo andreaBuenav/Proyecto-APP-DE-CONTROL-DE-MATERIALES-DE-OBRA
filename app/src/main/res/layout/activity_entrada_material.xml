@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- TITULO -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrada de Material"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- MATERIAL -->
+        <Spinner
+            android:id="@+id/spMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- CANTIDAD -->
+        <EditText
+            android:id="@+id/etCantidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cantidad"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- PRECIO -->
+        <EditText
+            android:id="@+id/etPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Precio Unitario"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- OBSERVACION -->
+        <EditText
+            android:id="@+id/etObservacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Observación"
+            android:minLines="3"
+            android:gravity="top"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- BOTON -->
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar Entrada"/>
+
+    </LinearLayout>
+
+</ScrollView>

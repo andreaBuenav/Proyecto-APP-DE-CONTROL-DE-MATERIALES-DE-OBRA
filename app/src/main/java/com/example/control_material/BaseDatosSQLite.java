@@ -103,6 +103,7 @@ public class BaseDatosSQLite extends SQLiteOpenHelper {
         db.execSQL(tableDetalleUso);
         db.execSQL(tableObra);
         db.execSQL(tableAlertaStock);
+
     }
 
     @Override
