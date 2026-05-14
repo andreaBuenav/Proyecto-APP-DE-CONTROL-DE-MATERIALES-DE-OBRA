@@ -44,6 +44,15 @@
         <activity
             android:name=".inventory.InvView"
             android:exported="false" />
+        <activity
+            android:name=".catalog.CatalogoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".catalog.CatalogoFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity_Reports"
+            android:exported="false" />
     </application>
 
 </manifest>
