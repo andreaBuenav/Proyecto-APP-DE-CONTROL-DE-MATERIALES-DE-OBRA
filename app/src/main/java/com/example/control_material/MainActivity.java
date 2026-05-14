@@ -11,6 +11,8 @@ import androidx.cardview.widget.CardView;
 import com.example.control_material.catalog.CatalogoActivity;
 import com.example.control_material.inventory.InvView;
 
+import com.example.control_material.entradamaterial.EntradaMaterialActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
@@ -25,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("datosLogin", MODE_PRIVATE);
         editor = preferences.edit();
 
+        Intent intent = new Intent(
+                MainActivity.this,
+                EntradaMaterialActivity.class
+        );
+
+        startActivity(intent);
         // Botón cerrar sesión
         Button btnCerrar = findViewById(R.id.btnCerrarSesion);
         btnCerrar.setOnClickListener(v -> {
