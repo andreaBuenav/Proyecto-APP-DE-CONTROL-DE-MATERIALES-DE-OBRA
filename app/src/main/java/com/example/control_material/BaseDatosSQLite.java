@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.control_material.catalog.MaterialModelo;
 import com.example.control_material.inventory.InventarioModelo;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class BaseDatosSQLite extends SQLiteOpenHelper {
         + "material_id INTEGER PRIMARY KEY AUTOINCREMENT,"
         + "nombre TEXT,"
         + "descripcion TEXT,"
+        + "categoria TEXT,"
         + "unidad_medida TEXT,"
         + "stock_actual REAL,"
         + "stock_minimo REAL,"
@@ -108,10 +110,11 @@ public class BaseDatosSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
+    // =========================================================
     // Métodos del Módulo de Inventario
+    // =========================================================
 
     public List<InventarioModelo> obtenerInventario() {
         List<InventarioModelo> lista = new ArrayList<>();
@@ -134,6 +137,94 @@ public class BaseDatosSQLite extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return lista;
+    }
+
+    // =========================================================
+    // Métodos del Módulo de Catálogo
+    // =========================================================
+
+    public List<MaterialModelo> obtenerCatalogo() {
+        List<MaterialModelo> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT material_id, nombre, descripcion, categoria, unidad_medida, precio_unitario " +
+                "FROM material WHERE estado = 1 OR estado IS NULL ORDER BY nombre", null);
+        if (cursor.moveToFirst()) {
+            do {
+                MaterialModelo m = new MaterialModelo();
+                m.setMaterialId(cursor.getInt(0));
+                m.setNombre(cursor.getString(1));
+                m.setDescripcion(cursor.getString(2));
+                m.setCategoria(cursor.getString(3));
+                m.setUnidadMedida(cursor.getString(4));
+                m.setPrecioUnitario(cursor.getDouble(5));
+                lista.add(m);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return lista;
+    }
+
+    public MaterialModelo obtenerMaterialPorId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT material_id, nombre, descripcion, categoria, unidad_medida, precio_unitario " +
+                "FROM material WHERE material_id = ?", new String[]{String.valueOf(id)});
+        MaterialModelo m = null;
+        if (cursor.moveToFirst()) {
+            m = new MaterialModelo();
+            m.setMaterialId(cursor.getInt(0));
+            m.setNombre(cursor.getString(1));
+            m.setDescripcion(cursor.getString(2));
+            m.setCategoria(cursor.getString(3));
+            m.setUnidadMedida(cursor.getString(4));
+            m.setPrecioUnitario(cursor.getDouble(5));
+        }
+        cursor.close();
+        db.close();
+        return m;
+    }
+
+    public long insertarMaterial(String nombre, String descripcion,
+                                  String categoria, String unidadMedida, double precio) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nombre", nombre);
+        values.put("descripcion", descripcion);
+        values.put("categoria", categoria);
+        values.put("unidad_medida", unidadMedida);
+        values.put("precio_unitario", precio);
+        values.put("stock_actual", 0);
+        values.put("stock_minimo", 0);
+        values.put("estado", 1);
+        long result = db.insert("material", null, values);
+        db.close();
+        return result;
+    }
+
+    public int actualizarMaterial(int materialId, String nombre, String descripcion,
+                                   String categoria, String unidadMedida, double precio) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nombre", nombre);
+        values.put("descripcion", descripcion);
+        values.put("categoria", categoria);
+        values.put("unidad_medida", unidadMedida);
+        values.put("precio_unitario", precio);
+        int rows = db.update("material", values,
+                "material_id = ?", new String[]{String.valueOf(materialId)});
+        db.close();
+        return rows;
+    }
+
+    public void eliminarMaterial(int materialId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("estado", 0);
+        db.update("material", values,
+                "material_id = ?", new String[]{String.valueOf(materialId)});
+        db.close();
     }
 
     public void verificarYRegistrarAlertaStock(int materialId) {
