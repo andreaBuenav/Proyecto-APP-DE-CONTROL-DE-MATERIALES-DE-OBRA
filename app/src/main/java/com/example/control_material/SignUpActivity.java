@@ -49,7 +49,9 @@ public class SignUpActivity extends AppCompatActivity {
         generoSpinner = findViewById(R.id.generoSpinner);
         estadoCivilGroup = findViewById(R.id.estadoCivilGroup);
         nivelInglesRating = findViewById(R.id.nivelInglesRating);
-        registrarBtn = findViewById(R.id.registrarBtn);
+        usuarioInput = findViewById(R.id.txtUsuario);
+        contraseniaInput = findViewById(R.id.txtPassword);
+        registrarBtn = findViewById(R.id.btn_actualizar);
         borrarBtn = findViewById(R.id.borrarBtn);
         cancBtn = findViewById(R.id.cancBtn);
         Button mostrarBtn = findViewById(R.id.mostrarBtn);
@@ -110,7 +112,20 @@ public class SignUpActivity extends AppCompatActivity {
         String info = cedula + ";" + nombres + ";" + apellidos + ";" + edad + ";" +
                 nacionalidad + ";" + genero + ";" + estadoCivil + ";" +
                 fechaNac + ";" + nivelIngles + "\n";
-
+        // GUARDAR EN SQLITE
+        guardarBD(
+                cedula,
+                nombres,
+                apellidos,
+                edad,
+                fechaNac,
+                nacionalidad,
+                genero,
+                estadoCivil,
+                usuario,
+                contrasenia,
+                nivelIngles
+        );
         try {
             FileOutputStream fos = openFileOutput("usuarios.txt", Context.MODE_APPEND);
             fos.write(info.getBytes());
@@ -202,11 +217,11 @@ public class SignUpActivity extends AppCompatActivity {
             cv.put("password", contrasenia);
             cv.put("nivelIngles", nivelIng);
 
-            long resultado = dbControlMaterialModoWrite.insert("usuario", null, cv);
+    long resultado = dbControlMaterialModoWrite.insert("usuario", null, cv);
             Toast.makeText(this, "Se ha guardado los datos en la BD", Toast.LENGTH_LONG).show();
             Log.d("SQLITE", "ID INSERTADO: " + resultado);
-        }
-        //dbControlMaterialModoWrite.close();
+}
+        dbControlMaterialModoWrite.close();
 
     }
 

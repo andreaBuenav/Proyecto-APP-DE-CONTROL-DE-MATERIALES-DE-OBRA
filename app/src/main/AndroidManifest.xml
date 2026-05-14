@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -11,55 +10,52 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Control_Material">
-        <activity
-            android:name=".activity_Reports"
-            android:exported="false" />
-        <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
-        <activity android:name=".entradamaterial.EntradaMaterialActivity"/>
+
+        <!-- Pantalla inicial -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <!-- Activities principales -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".SignUpActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".inventory.InvInfo"
-            android:exported="false" />
-        <activity
-            android:name=".inventory.InvView"
-            android:exported="false" />
-        <activity
-            android:name=".catalog.CatalogoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".catalog.CatalogoFormActivity"
-            android:exported="false" />
         <activity
             android:name=".activity_Reports"
             android:exported="false" />
+
+        <!-- Control Usuario -->
+        <activity
+            android:name=".ControlUsuario.ConsultarUsuarioActivity"
+            android:exported="false" />
+
+        <!-- Catálogo -->
+        <activity
+            android:name=".catalog.CatalogoActivity"
+            android:exported="false" />
+
+        <!-- Inventario -->
+        <activity
+            android:name=".inventory.InvView"
+            android:exported="false" />
+
+        <!-- Entrada Material -->
+        <activity
+            android:name=".entradamaterial.EntradaMaterialActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

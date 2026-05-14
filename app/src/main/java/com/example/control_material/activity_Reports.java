@@ -1,31 +1,34 @@
 package com.example.control_material;
 
-import static com.example.control_material.R.*;
-
-import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class activity_Reports extends AppCompatActivity {
+
     Spinner spinnerReportes;
     Button btnGenerar;
+
     RecyclerView recyclerReportes;
+
     TextView txtTotal;
+
+    EditText txtFechaInicio, txtFechaFin;
 
     ArrayList<ReporteModelo> listaReportes;
 
@@ -37,36 +40,102 @@ public class activity_Reports extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_reports);
+        setContentView(R.layout.activity_reports);
 
         spinnerReportes = findViewById(R.id.spinnerReportes);
         btnGenerar = findViewById(R.id.btnGenerarReporte);
+
         recyclerReportes = findViewById(R.id.recyclerReportes);
+
         txtTotal = findViewById(R.id.txtTotal);
 
+        txtFechaInicio = findViewById(R.id.txtFechaInicio);
+        txtFechaFin = findViewById(R.id.txtFechaFin);
+
         conexion = new BaseDatosSQLite(this);
+
         db = conexion.getReadableDatabase();
-        insertarDatosPrueba();
 
         listaReportes = new ArrayList<>();
 
         adapter = new ReporteAdapter(listaReportes);
 
         recyclerReportes.setLayoutManager(
-                new LinearLayoutManager(this));
+                new LinearLayoutManager(this)
+        );
 
         recyclerReportes.setAdapter(adapter);
 
         cargarSpinner();
+
+        //=========================================
+        // DATE PICKER FECHA INICIO
+        //=========================================
+
+        txtFechaInicio.setOnClickListener(v -> {
+            mostrarDatePicker(txtFechaInicio);
+        });
+
+        //=========================================
+        // DATE PICKER FECHA FIN
+        //=========================================
+
+        txtFechaFin.setOnClickListener(v -> {
+            mostrarDatePicker(txtFechaFin);
+        });
+
+        //=========================================
+        // BOTON GENERAR
+        //=========================================
 
         btnGenerar.setOnClickListener(v -> {
             generarReporte();
         });
     }
 
+    //=========================================
+    // DATE PICKER
+    //=========================================
+
+    private void mostrarDatePicker(EditText editText) {
+
+        final Calendar calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+
+        int month = calendar.get(Calendar.MONTH);
+
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog =
+                new DatePickerDialog(
+                        this,
+                        (view, year1, month1, dayOfMonth) -> {
+
+                            String fecha =
+                                    year1 + "-" +
+                                            String.format("%02d", month1 + 1) + "-" +
+                                            String.format("%02d", dayOfMonth);
+
+                            editText.setText(fecha);
+
+                        },
+                        year,
+                        month,
+                        day
+                );
+
+        datePickerDialog.show();
+    }
+
+    //=========================================
+    // CARGAR SPINNER
+    //=========================================
+
     private void cargarSpinner() {
 
         String[] reportes = {
+
                 "Materiales Bajo Stock",
                 "Entradas de Material",
                 "Uso de Materiales",
@@ -81,10 +150,15 @@ public class activity_Reports extends AppCompatActivity {
                 );
 
         adapterSpinner.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item);
+                android.R.layout.simple_spinner_dropdown_item
+        );
 
         spinnerReportes.setAdapter(adapterSpinner);
     }
+
+    //=========================================
+    // GENERAR REPORTES
+    //=========================================
 
     private void generarReporte() {
 
@@ -93,28 +167,38 @@ public class activity_Reports extends AppCompatActivity {
         String reporte =
                 spinnerReportes.getSelectedItem().toString();
 
+        String fechaInicio =
+                txtFechaInicio.getText().toString();
+
+        String fechaFin =
+                txtFechaFin.getText().toString();
+
         if(reporte.equals("Materiales Bajo Stock")) {
 
             reporteBajoStock();
 
-        } else if(reporte.equals("Entradas de Material")) {
+        }
+        else if(reporte.equals("Entradas de Material")) {
 
-            reporteEntradas();
+            reporteEntradas(fechaInicio, fechaFin);
 
-        } else if(reporte.equals("Uso de Materiales")) {
+        }
+        else if(reporte.equals("Uso de Materiales")) {
 
-            reporteUsoMateriales();
+            reporteUsoMateriales(fechaInicio, fechaFin);
 
-        } else if(reporte.equals("Alertas de Stock")) {
+        }
+        else if(reporte.equals("Alertas de Stock")) {
 
-            reporteAlertas();
+            reporteAlertas(fechaInicio, fechaFin);
         }
 
         adapter.notifyDataSetChanged();
 
         txtTotal.setText(
                 "Total registros: " +
-                        listaReportes.size());
+                        listaReportes.size()
+        );
     }
 
     //=========================================
@@ -124,9 +208,11 @@ public class activity_Reports extends AppCompatActivity {
     private void reporteBajoStock() {
 
         Cursor cursor = db.rawQuery(
+
                 "SELECT nombre, stock_actual, stock_minimo " +
                         "FROM material " +
                         "WHERE stock_actual <= stock_minimo",
+
                 null
         );
 
@@ -144,6 +230,7 @@ public class activity_Reports extends AppCompatActivity {
                         cursor.getString(2);
 
                 listaReportes.add(
+
                         new ReporteModelo(
                                 nombre,
                                 "Stock actual: " + stockActual,
@@ -161,12 +248,21 @@ public class activity_Reports extends AppCompatActivity {
     // REPORTE ENTRADAS
     //=========================================
 
-    private void reporteEntradas() {
+    private void reporteEntradas(
+            String fechaInicio,
+            String fechaFin
+    ) {
 
         Cursor cursor = db.rawQuery(
+
                 "SELECT entrada_id, fecha_entrada, observacion " +
-                        "FROM entrada_material",
-                null
+                        "FROM entrada_material " +
+                        "WHERE fecha_entrada BETWEEN ? AND ?",
+
+                new String[]{
+                        fechaInicio,
+                        fechaFin
+                }
         );
 
         if(cursor.moveToFirst()) {
@@ -183,6 +279,7 @@ public class activity_Reports extends AppCompatActivity {
                         cursor.getString(2);
 
                 listaReportes.add(
+
                         new ReporteModelo(
                                 "Entrada #" + id,
                                 "Fecha: " + fecha,
@@ -200,12 +297,21 @@ public class activity_Reports extends AppCompatActivity {
     // REPORTE USO MATERIALES
     //=========================================
 
-    private void reporteUsoMateriales() {
+    private void reporteUsoMateriales(
+            String fechaInicio,
+            String fechaFin
+    ) {
 
         Cursor cursor = db.rawQuery(
+
                 "SELECT actividad, fecha_uso, observacion " +
-                        "FROM uso_material",
-                null
+                        "FROM uso_material " +
+                        "WHERE fecha_uso BETWEEN ? AND ?",
+
+                new String[]{
+                        fechaInicio,
+                        fechaFin
+                }
         );
 
         if(cursor.moveToFirst()) {
@@ -222,6 +328,7 @@ public class activity_Reports extends AppCompatActivity {
                         cursor.getString(2);
 
                 listaReportes.add(
+
                         new ReporteModelo(
                                 actividad,
                                 "Fecha: " + fecha,
@@ -239,12 +346,21 @@ public class activity_Reports extends AppCompatActivity {
     // REPORTE ALERTAS
     //=========================================
 
-    private void reporteAlertas() {
+    private void reporteAlertas(
+            String fechaInicio,
+            String fechaFin
+    ) {
 
         Cursor cursor = db.rawQuery(
+
                 "SELECT mensaje, fecha_alerta, atendida " +
-                        "FROM alerta_stock",
-                null
+                        "FROM alerta_stock " +
+                        "WHERE fecha_alerta BETWEEN ? AND ?",
+
+                new String[]{
+                        fechaInicio,
+                        fechaFin
+                }
         );
 
         if(cursor.moveToFirst()) {
@@ -261,11 +377,12 @@ public class activity_Reports extends AppCompatActivity {
                         cursor.getInt(2);
 
                 String estado =
-                        atendida == 1 ?
-                                "Atendida" :
-                                "Pendiente";
+                        atendida == 1
+                                ? "Atendida"
+                                : "Pendiente";
 
                 listaReportes.add(
+
                         new ReporteModelo(
                                 mensaje,
                                 "Fecha: " + fecha,
@@ -278,118 +395,10 @@ public class activity_Reports extends AppCompatActivity {
 
         cursor.close();
     }
-    //==================================================
-    // DATOS DE PRUEBA
-    //==================================================
 
-    private void insertarDatosPrueba() {
-
-        // LIMPIAR TABLAS
-
-        db.execSQL("DELETE FROM alerta_stock");
-        db.execSQL("DELETE FROM uso_material");
-        db.execSQL("DELETE FROM entrada_material");
-        db.execSQL("DELETE FROM material");
-        db.execSQL("DELETE FROM obra");
-        db.execSQL("DELETE FROM usuario");
-
-        //=====================================
-        // USUARIO
-        //=====================================
-
-        db.execSQL(
-                "INSERT INTO usuario " +
-                        "(nombre, apellido, edad, cedula, nacionalidad, genero, " +
-                        "fechaNac, estadoCivil, username, password, nivelIngles, estado) " +
-
-                        "VALUES " +
-
-                        "('Jeremy', 'Soto', 20, 123456789, 'Ecuador', " +
-                        "'Masculino', '2005-01-01', 'Soltero', " +
-                        "'jeremy', '1234', 8.5, 1)"
-        );
-
-        //=====================================
-        // OBRA
-        //=====================================
-
-        db.execSQL(
-                "INSERT INTO obra " +
-                        "(nombre, ubicacion, fecha_inicio, fecha_fin, estado) " +
-
-                        "VALUES " +
-
-                        "('Edificio Central', 'Guayaquil', " +
-                        "'2026-05-01', '2026-12-31', 'Activa')"
-        );
-
-        //=====================================
-        // MATERIAL
-        //=====================================
-
-        db.execSQL(
-                "INSERT INTO material " +
-                        "(nombre, descripcion, unidad_medida, " +
-                        "stock_actual, stock_minimo, " +
-                        "precio_unitario, estado) " +
-
-                        "VALUES " +
-
-                        "('Cemento', 'Saco de cemento', 'Unidad', " +
-                        "5, 10, 8.50, 1)"
-        );
-
-        db.execSQL(
-                "INSERT INTO material " +
-                        "(nombre, descripcion, unidad_medida, " +
-                        "stock_actual, stock_minimo, " +
-                        "precio_unitario, estado) " +
-
-                        "VALUES " +
-
-                        "('Varilla', 'Varilla de hierro', 'Unidad', " +
-                        "50, 20, 12.00, 1)"
-        );
-
-        //=====================================
-        // ENTRADA MATERIAL
-        //=====================================
-
-        db.execSQL(
-                "INSERT INTO entrada_material " +
-                        "(usuario_id, fecha_entrada, observacion) " +
-
-                        "VALUES " +
-
-                        "(1, '2026-05-11', 'Ingreso de materiales')"
-        );
-
-        //=====================================
-        // USO MATERIAL
-        //=====================================
-
-        db.execSQL(
-                "INSERT INTO uso_material " +
-                        "(obra_id, usuario_id, fecha_uso, actividad, observacion) " +
-
-                        "VALUES " +
-
-                        "(1, 1, '2026-05-11', " +
-                        "'Construcción', 'Uso de cemento')"
-        );
-
-        //=====================================
-        // ALERTA STOCK
-        //=====================================
-
-        db.execSQL(
-                "INSERT INTO alerta_stock " +
-                        "(material_id, fecha_alerta, mensaje, atendida) " +
-
-                        "VALUES " +
-
-                        "(1, '2026-05-11', " +
-                        "'Stock bajo de cemento', 0)"
-        );
+    public void regresarMenu(View v) {
+        Intent Menu = new Intent(this, MainActivity.class);
+        startActivity(Menu);
+        finish();
     }
 }

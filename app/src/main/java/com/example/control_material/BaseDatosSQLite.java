@@ -254,4 +254,76 @@ public class BaseDatosSQLite extends SQLiteOpenHelper {
         cursor.close();
         db.close();
     }
+
+    // =========================================================
+    // Métodos del Módulo de Control Usuario
+    // ===
+    public Cursor buscarUsuarioPorCedula(String cedula){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        return db.rawQuery(
+                "SELECT * FROM usuario WHERE cedula = ? AND estado = 1",
+                new String[]{cedula}
+        );
+    }
+    public int actualizarUsuario(
+            int usuarioId,
+            String nombre,
+            String apellido,
+            int edad,
+            String nacionalidad,
+            String genero,
+            String fechaNac,
+            String estadoCivil,
+            String username,
+            String password,
+            float nivelIngles
+    ){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put("nombre", nombre);
+        values.put("apellido", apellido);
+        values.put("edad", edad);
+        values.put("nacionalidad", nacionalidad);
+        values.put("genero", genero);
+        values.put("fechaNac", fechaNac);
+        values.put("estadoCivil", estadoCivil);
+        values.put("username", username);
+        values.put("password", password);
+        values.put("nivelIngles", nivelIngles);
+
+        int respuesta = db.update(
+                "usuario",
+                values,
+                "usuario_id=?",
+                new String[]{String.valueOf(usuarioId)}
+        );
+
+        db.close();
+
+        return respuesta;
+    }
+    public int eliminarUsuario(int usuarioId){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put("estado", 0);
+
+        int respuesta = db.update(
+                "usuario",
+                values,
+                "usuario_id=?",
+                new String[]{String.valueOf(usuarioId)}
+        );
+
+        db.close();
+
+        return respuesta;
+    }
+
 }

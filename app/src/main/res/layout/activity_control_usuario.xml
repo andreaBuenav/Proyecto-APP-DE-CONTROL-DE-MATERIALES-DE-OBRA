@@ -12,19 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        tools:context=".SignUpActivity">
+        tools:context=".SignUpActivity"
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="48dp">
 
         <Button
-            android:id="@+id/cancBtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="Cancelar"
-            app:layout_constraintBottom_toBottomOf="@+id/borrarBtn"
+            android:id="@+id/btn_eliminar"
+            android:layout_width="165dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="852dp"
+            android:backgroundTint="#323F8E"
+            android:onClick="regresarMenu"
+            android:text="Eliminar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/borrarBtn"
-            app:layout_constraintTop_toTopOf="@+id/borrarBtn"
+            app:layout_constraintHorizontal_bias="0.275"
+            app:layout_constraintStart_toEndOf="@+id/crearCuentaTitulo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/btn_Buscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#323F8E"
+            android:text="Buscar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintStart_toEndOf="@+id/crearCuentaTitulo"
+            app:layout_constraintTop_toTopOf="@+id/crearCuentaTitulo" />
+
+        <Button
+            android:id="@+id/btn_actualizar"
+            android:layout_width="167dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="240dp"
+            android:backgroundTint="#323F8E"
+            android:text="Actualizar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
@@ -32,37 +61,43 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
             android:layout_marginEnd="4dp"
             android:text="Borrar"
+            app:layout_constraintBottom_toTopOf="@+id/btn_actualizar"
             app:layout_constraintEnd_toStartOf="@+id/cancBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_actualizar" />
+            app:layout_constraintTop_toBottomOf="@+id/txtpassword" />
 
         <Button
-            android:id="@+id/btn_actualizar"
-            android:layout_width="match_parent"
+            android:id="@+id/cancBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="288dp"
-            android:backgroundTint="#323F8E"
-            android:text="Registrar"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
-            tools:layout_editor_absoluteX="20dp" />
+            android:layout_marginStart="4dp"
+            android:onClick="regresarMenu"
+            android:text="Cancelar"
+            app:layout_constraintBottom_toBottomOf="@+id/borrarBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/borrarBtn"
+            app:layout_constraintTop_toTopOf="@+id/borrarBtn"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <!-- Cédula -->
 
         <TextView
             android:id="@+id/crearCuentaTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Crear Cuenta"
+            android:text="Buscar Usuario"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Cédula -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/cedulaInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -235,77 +270,51 @@
             app:layout_constraintTop_toTopOf="@+id/fechaNacLayout"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/nivelInglesLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Nivel de Inglés"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fechaNacLayout" />
+        <!-- Botones -->
 
         <RatingBar
             android:id="@+id/nivelInglesRating"
             style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:isIndicator="false"
             android:numStars="5"
             android:stepSize="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nivelInglesLabel" />
 
-        <!-- Botones -->
-
-        <Button
-            android:id="@+id/btn_actualizar"
-            android:layout_width="174dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="156dp"
-            android:layout_marginEnd="4dp"
-            android:backgroundTint="#323F8E"
-            android:text="Registrar"
-            app:layout_constraintBottom_toTopOf="@+id/btn_actualizar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.082"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/mostrarBtn"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/nivelInglesLabel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:backgroundTint="#323F8E"
-            android:text="Mostrar"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_actualizar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/btn_actualizar"
-            app:layout_constraintTop_toTopOf="@+id/btn_actualizar"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_marginTop="28dp"
+            android:text="Nivel de Inglés"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fechaNacLayout" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:hint="Usuario"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating" />
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtPassword"
+            android:id="@+id/txtpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="76dp"
-            android:hint="Usuario"
+            android:hint="Contraseña"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating" />
 
