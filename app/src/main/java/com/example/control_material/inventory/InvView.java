@@ -1,6 +1,8 @@
 package com.example.control_material.inventory;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +17,7 @@ import com.example.control_material.R;
 
 import java.util.List;
 
-public class InvView extends AppCompatActivity {
+public class InvView extends AppCompatActivity implements InventarioAdapter.OnEliminarListener {
 
     private RecyclerView recyclerView;
     private InventarioAdapter adapter;
@@ -41,7 +43,21 @@ public class InvView extends AppCompatActivity {
 
     private void cargarInventario() {
         List<InventarioModelo> lista = db.obtenerInventario();
-        adapter = new InventarioAdapter(lista, this);
+        adapter = new InventarioAdapter(lista, this, this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onEliminar(InventarioModelo material) {
+        new AlertDialog.Builder(this)
+            .setTitle("Eliminar material")
+            .setMessage("¿Está seguro de eliminar \"" + material.getNombreMaterial() + "\"?")
+            .setPositiveButton("Eliminar", (dialog, which) -> {
+                db.eliminarMaterial(material.getMaterialId());
+                Toast.makeText(this, "Material eliminado", Toast.LENGTH_SHORT).show();
+                cargarInventario();
+            })
+            .setNegativeButton("Cancelar", null)
+            .show();
     }
 }

@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import com.example.control_material.catalog.CatalogoActivity;
+import com.example.control_material.inventory.InvView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,24 +21,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializar
+        // Inicializar preferencias
         preferences = getSharedPreferences("datosLogin", MODE_PRIVATE);
         editor = preferences.edit();
 
         // Botón cerrar sesión
         Button btnCerrar = findViewById(R.id.btnCerrarSesion);
-        Button btnInventario = findViewById(R.id.btnInventario);
-
         btnCerrar.setOnClickListener(v -> {
             editor.clear();
             editor.apply();
-
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         });
 
-        btnInventario.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, com.example.control_material.inventory.InvInfo.class));
-        });
+        // Card: Catálogo de Materiales
+        CardView cardCatalogo = findViewById(R.id.cardCatalogo);
+        cardCatalogo.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, CatalogoActivity.class)));
+
+        // Card: Disponibilidad de Inventario
+        CardView cardInventario = findViewById(R.id.cardInventario);
+        cardInventario.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, InvView.class)));
+
+        // Card: Reportes
+        CardView cardReportes = findViewById(R.id.cardReportes);
+        cardReportes.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, activity_Reports.class)));
     }
 }
