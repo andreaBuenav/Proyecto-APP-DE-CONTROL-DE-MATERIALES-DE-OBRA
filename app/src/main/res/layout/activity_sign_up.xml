@@ -256,17 +256,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nivelInglesLabel" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtContrasenia"
-            android:layout_width="match_parent"
+        <!-- Botones -->
+        <Button
+            android:id="@+id/registrarBtn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
-            app:layout_constraintBottom_toTopOf="@+id/registrarBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="#323F8E"
+            android:text="Registrar"
+            app:layout_constraintEnd_toStartOf="@+id/mostrarBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
-            app:layout_constraintVertical_bias="0.686" />
+            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating" />
+
+        <Button
+            android:id="@+id/mostrarBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:backgroundTint="#323F8E"
+            android:text="Mostrar"
+            app:layout_constraintBottom_toBottomOf="@+id/registrarBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/registrarBtn"
+            app:layout_constraintTop_toTopOf="@+id/registrarBtn" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtUsuario"
