@@ -147,47 +147,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Card: Entrada de Material -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardEntradaMaterial"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp"
-        app:strokeWidth="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardReportes">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="#1565C0">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Entrada de Material"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Registro y control de ingreso de materiales"
-                android:textColor="#B0BEC5"
-                android:textSize="13sp" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCerrarSesion"
         style="@style/Widget.Material3.Button"
