@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.control_material.R;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.CatalogoViewHolder> {
@@ -21,15 +22,33 @@ public class CatalogoAdapter extends RecyclerView.Adapter<CatalogoAdapter.Catalo
     }
 
     private List<MaterialModelo> lista;
+    private List<MaterialModelo> listaCompleta;
     private final OnCatalogoActionListener listener;
 
     public CatalogoAdapter(List<MaterialModelo> lista, OnCatalogoActionListener listener) {
         this.lista = lista;
+        this.listaCompleta = new ArrayList<>(lista);
         this.listener = listener;
     }
 
     public void setLista(List<MaterialModelo> lista) {
         this.lista = lista;
+        this.listaCompleta = new ArrayList<>(lista);
+        notifyDataSetChanged();
+    }
+
+    public void filtrar(String texto) {
+        lista.clear();
+        if (texto == null || texto.trim().isEmpty()) {
+            lista.addAll(listaCompleta);
+        } else {
+            String q = texto.trim().toLowerCase();
+            for (MaterialModelo m : listaCompleta) {
+                if (m.getNombre().toLowerCase().contains(q)) {
+                    lista.add(m);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 

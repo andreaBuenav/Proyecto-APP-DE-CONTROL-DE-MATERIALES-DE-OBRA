@@ -49,7 +49,9 @@ public class SignUpActivity extends AppCompatActivity {
         generoSpinner = findViewById(R.id.generoSpinner);
         estadoCivilGroup = findViewById(R.id.estadoCivilGroup);
         nivelInglesRating = findViewById(R.id.nivelInglesRating);
-        registrarBtn = findViewById(R.id.registrarBtn);
+        usuarioInput = findViewById(R.id.txtUsuario);
+        contraseniaInput = findViewById(R.id.txtPassword);
+        registrarBtn = findViewById(R.id.btn_actualizar);
         borrarBtn = findViewById(R.id.borrarBtn);
         cancBtn = findViewById(R.id.cancBtn);
         Button mostrarBtn = findViewById(R.id.mostrarBtn);
@@ -99,6 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
         String usuario = usuarioInput.getText().toString();
         String contrasenia = contraseniaInput.getText().toString();
         float nivelIngles = nivelInglesRating.getRating();
+        Integer estado = 1;
 
         int selectedId = estadoCivilGroup.getCheckedRadioButtonId();
         String estadoCivil = "";
@@ -110,7 +113,21 @@ public class SignUpActivity extends AppCompatActivity {
         String info = cedula + ";" + nombres + ";" + apellidos + ";" + edad + ";" +
                 nacionalidad + ";" + genero + ";" + estadoCivil + ";" +
                 fechaNac + ";" + nivelIngles + "\n";
-
+        // GUARDAR EN SQLITE
+        guardarBD(
+                cedula,
+                nombres,
+                apellidos,
+                edad,
+                fechaNac,
+                nacionalidad,
+                genero,
+                estadoCivil,
+                usuario,
+                contrasenia,
+                nivelIngles,
+                estado
+        );
         try {
             FileOutputStream fos = openFileOutput("usuarios.txt", Context.MODE_APPEND);
             fos.write(info.getBytes());
@@ -175,6 +192,8 @@ public class SignUpActivity extends AppCompatActivity {
         nombresInput.setText("");
         apellidosInput.setText("");
         edadInput.setText("");
+        contraseniaInput.setText("");
+        usuarioInput.setText("");
         fechaNacInput.setText("");
         nacionalidadSpinner.setSelection(0);
         generoSpinner.setSelection(0);
@@ -184,7 +203,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void guardarBD(String cedula, String nombres, String apellidos, String edad, String fechaNac, String nacionalidad, String genero,
-                          String estadoCivil,String usuario, String contrasenia, float nivelIng){
+                          String estadoCivil,String usuario, String contrasenia, float nivelIng, Integer estado){
         BaseDatosSQLite dbControlMaterial = new BaseDatosSQLite(this);
         final SQLiteDatabase dbControlMaterialModoWrite = dbControlMaterial.getWritableDatabase();
 
@@ -201,12 +220,13 @@ public class SignUpActivity extends AppCompatActivity {
             cv.put("username", usuario);
             cv.put("password", contrasenia);
             cv.put("nivelIngles", nivelIng);
+            cv.put("estado", estado);
 
-            long resultado = dbControlMaterialModoWrite.insert("usuario", null, cv);
+    long resultado = dbControlMaterialModoWrite.insert("usuario", null, cv);
             Toast.makeText(this, "Se ha guardado los datos en la BD", Toast.LENGTH_LONG).show();
             Log.d("SQLITE", "ID INSERTADO: " + resultado);
-        }
-        //dbControlMaterialModoWrite.close();
+}
+        dbControlMaterialModoWrite.close();
 
     }
 
