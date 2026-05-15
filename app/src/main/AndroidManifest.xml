@@ -60,6 +60,10 @@
             android:name=".entradamaterial.EntradaMaterialActivity"
             android:exported="false" />
 
+        <!-- Uso Material -->
+        <activity
+            android:name=".usomaterial.UsoMaterialActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

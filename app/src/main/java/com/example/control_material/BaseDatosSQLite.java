@@ -254,6 +254,160 @@ public class BaseDatosSQLite extends SQLiteOpenHelper {
         cursor.close();
         db.close();
     }
+// =========================================================
+// Métodos del Módulo Uso de Material
+// =========================================================
+
+    public List<InventarioModelo> obtenerMaterialesDisponiblesParaUso() {
+        List<InventarioModelo> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT material_id, nombre, unidad_medida, stock_actual, stock_minimo, precio_unitario " +
+                        "FROM material " +
+                        "WHERE (estado = 1 OR estado IS NULL) AND stock_actual > 0 " +
+                        "ORDER BY nombre",
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                InventarioModelo modelo = new InventarioModelo();
+                modelo.setMaterialId(cursor.getInt(0));
+                modelo.setNombreMaterial(cursor.getString(1));
+                modelo.setUnidadMedida(cursor.getString(2));
+                modelo.setStockActual(cursor.getDouble(3));
+                modelo.setStockMinimo(cursor.getDouble(4));
+                modelo.setPrecioUnitario(cursor.getDouble(5));
+
+                lista.add(modelo);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return lista;
+    }
+
+    private int obtenerOCrearObra(SQLiteDatabase db, String nombreObra) {
+        int obraId = -1;
+
+        Cursor cursor = db.rawQuery(
+                "SELECT obra_id FROM obra WHERE nombre = ? LIMIT 1",
+                new String[]{nombreObra}
+        );
+
+        if (cursor.moveToFirst()) {
+            obraId = cursor.getInt(0);
+        }
+
+        cursor.close();
+
+        if (obraId != -1) {
+            return obraId;
+        }
+
+        ContentValues values = new ContentValues();
+        values.put("nombre", nombreObra);
+        values.put("ubicacion", "");
+        values.put("fecha_inicio", "");
+        values.put("fecha_fin", "");
+        values.put("estado", "Activa");
+
+        long idInsertado = db.insert("obra", null, values);
+
+        return (int) idInsertado;
+    }
+
+    public String registrarUsoMaterial(
+            String nombreObra,
+            int usuarioId,
+            int materialId,
+            double cantidad,
+            String actividad,
+            String observacion
+    ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.beginTransaction();
+
+        try {
+            Cursor cursorStock = db.rawQuery(
+                    "SELECT stock_actual FROM material WHERE material_id = ?",
+                    new String[]{String.valueOf(materialId)}
+            );
+
+            if (!cursorStock.moveToFirst()) {
+                cursorStock.close();
+                return "El material seleccionado no existe";
+            }
+
+            double stockActual = cursorStock.getDouble(0);
+            cursorStock.close();
+
+            if (cantidad <= 0) {
+                return "La cantidad debe ser mayor a cero";
+            }
+
+            if (cantidad > stockActual) {
+                return "Stock insuficiente. Stock disponible: " + stockActual;
+            }
+
+            int obraId = obtenerOCrearObra(db, nombreObra);
+
+            if (obraId == -1) {
+                return "No se pudo registrar la obra";
+            }
+
+            String fechaActual = new java.text.SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss",
+                    java.util.Locale.getDefault()
+            ).format(new java.util.Date());
+
+            ContentValues valuesUso = new ContentValues();
+            valuesUso.put("obra_id", obraId);
+            valuesUso.put("usuario_id", usuarioId);
+            valuesUso.put("fecha_uso", fechaActual);
+            valuesUso.put("actividad", actividad);
+            valuesUso.put("observacion", observacion);
+
+            long usoId = db.insert("uso_material", null, valuesUso);
+
+            if (usoId == -1) {
+                return "Error al registrar el uso de material";
+            }
+
+            ContentValues valuesDetalle = new ContentValues();
+            valuesDetalle.put("uso_id", usoId);
+            valuesDetalle.put("material_id", materialId);
+            valuesDetalle.put("cantidad", cantidad);
+
+            long detalleId = db.insert("detalle_uso", null, valuesDetalle);
+
+            if (detalleId == -1) {
+                return "Error al registrar el detalle del uso";
+            }
+
+            db.execSQL(
+                    "UPDATE material SET stock_actual = stock_actual - ? WHERE material_id = ?",
+                    new Object[]{cantidad, materialId}
+            );
+
+            verificarYRegistrarAlertaStock(materialId);
+
+            db.setTransactionSuccessful();
+
+            return "OK";
+
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
 
     // =========================================================
     // Métodos del Módulo de Control Usuario

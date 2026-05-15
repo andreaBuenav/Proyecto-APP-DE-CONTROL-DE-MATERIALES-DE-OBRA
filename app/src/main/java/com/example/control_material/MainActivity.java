@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import com.example.control_material.ControlUsuario.ConsultarUsuarioActivity;
 import com.example.control_material.catalog.CatalogoActivity;
 import com.example.control_material.inventory.InvView;
+import com.example.control_material.usomaterial.UsoMaterialActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         cardInventario.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, InvView.class)));
+
+        // Uso de Material
+        CardView cardUsoMaterial = findViewById(R.id.cardUsoMaterial);
+
+        cardUsoMaterial.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, UsoMaterialActivity.class)));
 
         // Reportes
         CardView cardReportes = findViewById(R.id.cardReportes);
