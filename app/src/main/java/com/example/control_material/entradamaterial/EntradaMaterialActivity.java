@@ -19,7 +19,6 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.control_material.BaseDatosSQLite;
-import com.example.control_material.HistorialEntradaActivity;
 import com.example.control_material.R;
 
 import java.util.ArrayList;
@@ -91,6 +90,8 @@ public class EntradaMaterialActivity extends AppCompatActivity {
         // BOTON GUARDAR
 
         btnGuardar.setOnClickListener(v -> guardarEntrada());
+
+        // BOTON VER HISTORIAL
         btnHistorial.setOnClickListener(v -> {
 
             startActivity(

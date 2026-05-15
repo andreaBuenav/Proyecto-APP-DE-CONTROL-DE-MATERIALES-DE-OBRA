@@ -1,4 +1,4 @@
-package com.example.control_material;
+package com.example.control_material.entradamaterial;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +7,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.control_material.BaseDatosSQLite;
+import com.example.control_material.EntradaAdapter;
+import com.example.control_material.EntradaModel;
+import com.example.control_material.R;
 
 import java.util.ArrayList;
 
@@ -41,7 +46,7 @@ public class HistorialEntradaActivity extends AppCompatActivity {
 
         cargarEntradas();
 
-        adapter = new EntradaAdapter(listaEntradas);
+        adapter = new com.example.control_material.EntradaAdapter(listaEntradas);
 
         recyclerEntradas.setAdapter(adapter);
     }
@@ -77,7 +82,7 @@ public class HistorialEntradaActivity extends AppCompatActivity {
             double precio = cursor.getDouble(3);
 
             listaEntradas.add(
-                    new EntradaModel(
+                    new com.example.control_material.EntradaModel(
                             fecha,
                             material,
                             cantidad,
