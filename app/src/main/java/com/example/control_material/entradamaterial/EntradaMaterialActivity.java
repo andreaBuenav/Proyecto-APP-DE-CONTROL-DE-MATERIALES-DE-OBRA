@@ -9,10 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.control_material.BaseDatosSQLite;
+import com.example.control_material.HistorialEntradaActivity;
 import com.example.control_material.R;
 
 import java.util.ArrayList;
@@ -26,6 +33,8 @@ public class EntradaMaterialActivity extends AppCompatActivity {
     EditText etObservacion;
 
     Button btnGuardar;
+    Button btnHistorial;
+    TextView tvStock;
 
     BaseDatosSQLite conexion;
 
@@ -52,6 +61,10 @@ public class EntradaMaterialActivity extends AppCompatActivity {
 
         btnGuardar = findViewById(R.id.btnGuardar);
 
+        btnHistorial = findViewById(R.id.btnHistorial);
+
+        tvStock = findViewById(R.id.tvStock);
+
         // CONEXION SQLITE
 
         conexion = new BaseDatosSQLite(this);
@@ -62,10 +75,45 @@ public class EntradaMaterialActivity extends AppCompatActivity {
 
         cargarMateriales();
 
+        spMaterial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+
+                mostrarStock(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         // BOTON GUARDAR
 
         btnGuardar.setOnClickListener(v -> guardarEntrada());
+        btnHistorial.setOnClickListener(v -> {
 
+            startActivity(
+                    new android.content.Intent(
+                            this,
+                            HistorialEntradaActivity.class
+                    )
+            );
+        });
+
+    }
+
+    // LIMPIAR CAMPOS
+
+    private void limpiarCampos() {
+
+        etCantidad.setText("");
+
+        etPrecio.setText("");
+
+        etObservacion.setText("");
+
+        spMaterial.setSelection(0);
     }
 
     // CARGAR MATERIALES DESDE SQLITE
@@ -106,133 +154,201 @@ public class EntradaMaterialActivity extends AppCompatActivity {
 
         spMaterial.setAdapter(adapter);
     }
+    private void mostrarStock(int position) {
+
+        try {
+
+            int materialId = listaIds.get(position);
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT stock_actual FROM material WHERE material_id = ?",
+                    new String[]{String.valueOf(materialId)}
+            );
+
+            if (cursor.moveToFirst()) {
+
+                double stock = cursor.getDouble(0);
+
+                tvStock.setText("Stock actual: " + stock);
+            }
+
+            cursor.close();
+
+        } catch (Exception e) {
+
+            tvStock.setText("Stock actual: Error");
+        }
+    }
 
     // GUARDAR ENTRADA
 
     private void guardarEntrada() {
 
-        String cantidadTexto = etCantidad.getText().toString();
+        try {
 
-        String precioTexto = etPrecio.getText().toString();
+            // VALIDAR QUE EXISTAN MATERIALES
 
-        String observacion = etObservacion.getText().toString();
+            if (listaIds.isEmpty()) {
 
-        // VALIDAR CAMPOS
+                Toast.makeText(
+                        this,
+                        "No existen materiales registrados",
+                        Toast.LENGTH_SHORT
+                ).show();
 
-        if (cantidadTexto.isEmpty() || precioTexto.isEmpty()) {
+                return;
+            }
+
+            // OBTENER DATOS
+
+            String cantidadTexto = etCantidad.getText().toString().trim();
+
+            String precioTexto = etPrecio.getText().toString().trim();
+
+            String observacion = etObservacion.getText().toString().trim();
+
+            // VALIDAR CAMPOS VACIOS
+
+            if (cantidadTexto.isEmpty() || precioTexto.isEmpty()) {
+
+                Toast.makeText(
+                        this,
+                        "Complete todos los campos",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            // CONVERTIR NUMEROS
+
+            double cantidad = Double.parseDouble(cantidadTexto);
+
+            double precio = Double.parseDouble(precioTexto);
+
+            // VALIDAR NEGATIVOS O CERO
+
+            if (cantidad <= 0 || precio <= 0) {
+
+                Toast.makeText(
+                        this,
+                        "Cantidad y precio deben ser mayores a 0",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            // OBTENER MATERIAL SELECCIONADO
+
+            int posicion = spMaterial.getSelectedItemPosition();
+
+            int materialId = listaIds.get(posicion);
+
+            // INSERTAR ENTRADA
+
+            ContentValues valuesEntrada = new ContentValues();
+
+            valuesEntrada.put("usuario_id", 1);
+
+            String fechaActual = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm",
+                    Locale.getDefault()
+            ).format(new Date());
+
+            valuesEntrada.put("fecha_entrada", fechaActual);
+
+            valuesEntrada.put("observacion", observacion);
+
+            long entradaId = db.insert(
+                    "entrada_material",
+                    null,
+                    valuesEntrada
+            );
+
+            // VALIDAR INSERT
+
+            if (entradaId == -1) {
+
+                Toast.makeText(
+                        this,
+                        "Error al guardar entrada",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            // INSERTAR DETALLE
+
+            ContentValues valuesDetalle = new ContentValues();
+
+            valuesDetalle.put("entrada_id", entradaId);
+
+            valuesDetalle.put("material_id", materialId);
+
+            valuesDetalle.put("cantidad", cantidad);
+
+            valuesDetalle.put("precio_unitario", precio);
+
+            long detalleId = db.insert(
+                    "detalle_entrada",
+                    null,
+                    valuesDetalle
+            );
+
+            // VALIDAR DETALLE
+
+            if (detalleId == -1) {
+
+                Toast.makeText(
+                        this,
+                        "Error al guardar detalle",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            // ACTUALIZAR STOCK
+
+            db.execSQL(
+                    "UPDATE material " +
+                            "SET stock_actual = stock_actual + ? " +
+                            "WHERE material_id = ?",
+                    new Object[]{cantidad, materialId}
+            );
+
+            // MENSAJE EXITO
 
             Toast.makeText(
                     this,
-                    "Complete todos los campos",
-                    Toast.LENGTH_SHORT
+                    "Entrada registrada correctamente",
+                    Toast.LENGTH_LONG
             ).show();
 
-            return;
-        }
+            // LIMPIAR CAMPOS
 
-        // CONVERTIR VALORES
+            limpiarCampos();
 
-        double cantidad = Double.parseDouble(cantidadTexto);
-
-        double precio = Double.parseDouble(precioTexto);
-
-        // OBTENER MATERIAL SELECCIONADO
-
-        int posicion = spMaterial.getSelectedItemPosition();
-
-        int materialId = listaIds.get(posicion);
-
-        // INSERTAR EN entrada_material
-
-        ContentValues valuesEntrada = new ContentValues();
-
-        valuesEntrada.put("usuario_id", 1);
-
-        valuesEntrada.put(
-                "fecha_entrada",
-                String.valueOf(System.currentTimeMillis())
-        );
-
-        valuesEntrada.put("observacion", observacion);
-
-        long entradaId = db.insert(
-                "entrada_material",
-                null,
-                valuesEntrada
-        );
-
-        // VALIDAR INSERT
-
-        if (entradaId == -1) {
+        } catch (NumberFormatException e) {
 
             Toast.makeText(
                     this,
-                    "Error al guardar entrada",
+                    "Ingrese valores numéricos válidos",
                     Toast.LENGTH_SHORT
             ).show();
 
-            return;
-        }
-
-        // INSERTAR DETALLE
-
-        ContentValues valuesDetalle = new ContentValues();
-
-        valuesDetalle.put("entrada_id", entradaId);
-
-        valuesDetalle.put("material_id", materialId);
-
-        valuesDetalle.put("cantidad", cantidad);
-
-        valuesDetalle.put("precio_unitario", precio);
-
-        long detalleId = db.insert(
-                "detalle_entrada",
-                null,
-                valuesDetalle
-        );
-
-        // VALIDAR DETALLE
-
-        if (detalleId == -1) {
+        } catch (Exception e) {
 
             Toast.makeText(
                     this,
-                    "Error al guardar detalle",
-                    Toast.LENGTH_SHORT
+                    "Error: " + e.getMessage(),
+                    Toast.LENGTH_LONG
             ).show();
 
-            return;
         }
-
-        // ACTUALIZAR STOCK
-
-        db.execSQL(
-                "UPDATE material " +
-                        "SET stock_actual = stock_actual + ? " +
-                        "WHERE material_id = ?",
-                new Object[]{cantidad, materialId}
-        );
-
-        Toast.makeText(
-                this,
-                "Entrada guardada correctamente",
-                Toast.LENGTH_LONG
-        ).show();
-
-        limpiarCampos();
     }
 
-    // LIMPIAR CAMPOS
 
-    private void limpiarCampos() {
-
-        etCantidad.setText("");
-
-        etPrecio.setText("");
-
-        etObservacion.setText("");
-
-        spMaterial.setSelection(0);
-    }
 }

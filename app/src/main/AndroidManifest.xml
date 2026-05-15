@@ -60,6 +60,13 @@
             android:name=".entradamaterial.EntradaMaterialActivity"
             android:exported="false" />
 
+        <!-- Activity para abrir activity secundario-->
+        <!-- Historial de Entradas -->
+        <activity
+            android:name=".entradamaterial.HistorialEntradaActivity"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>

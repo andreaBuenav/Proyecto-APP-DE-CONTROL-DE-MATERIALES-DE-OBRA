@@ -25,7 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"/>
-
+        <!-- STOCK -->
+        <TextView
+            android:id="@+id/tvStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock actual: 0"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
         <!-- CANTIDAD -->
         <EditText
             android:id="@+id/etCantidad"
@@ -54,13 +62,19 @@
             android:gravity="top"
             android:layout_marginBottom="20dp"/>
 
-        <!-- BOTON -->
+        <!-- BOTON GUARDAR -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar Entrada"/>
-
+        <!-- BOTON VER HISTORIAL -->
+        <Button
+            android:id="@+id/btnHistorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ver Historial"
+            android:layout_marginTop="12dp"/>
     </LinearLayout>
 
 </ScrollView>
