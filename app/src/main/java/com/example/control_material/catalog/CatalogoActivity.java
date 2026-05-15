@@ -2,6 +2,9 @@ package com.example.control_material.catalog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +49,22 @@ public class CatalogoActivity extends AppCompatActivity
         });
 
         cargarCatalogo();
+
+        EditText searchInput = findViewById(R.id.catalogoSearchInput);
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (adapter != null) {
+                    adapter.filtrar(s.toString());
+                }
+            }
+        });
     }
 
     @Override
