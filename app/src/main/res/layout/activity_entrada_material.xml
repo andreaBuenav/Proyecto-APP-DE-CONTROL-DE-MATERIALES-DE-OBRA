@@ -44,13 +44,16 @@
             android:layout_marginBottom="16dp"/>
 
         <!-- PRECIO -->
-        <EditText
-            android:id="@+id/etPrecio"
+        <TextView
+            android:id="@+id/tvPrecioMaterial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio Unitario"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="16dp"/>
+            android:text="Precio: $0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"/>
 
         <!-- OBSERVACION -->
         <EditText
