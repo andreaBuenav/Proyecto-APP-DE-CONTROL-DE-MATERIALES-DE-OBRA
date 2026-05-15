@@ -60,6 +60,12 @@
             android:name=".entradamaterial.EntradaMaterialActivity"
             android:exported="false" />
 
-    </application>
+        <!-- Historial de Entradas -->
+        <activity
+            android:name=".entradamaterial.HistorialEntradaActivity"
+            android:exported="false" />
+
+
+ </application>
 
 </manifest>
