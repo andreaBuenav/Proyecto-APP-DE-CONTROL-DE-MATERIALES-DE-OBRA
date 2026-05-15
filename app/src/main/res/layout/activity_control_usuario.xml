@@ -4,107 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:onClick="regresarALogin">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        tools:context=".SignUpActivity"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="48dp">
-
-        <Button
-            android:id="@+id/btn_eliminar"
-            android:layout_width="165dp"
-            android:layout_height="59dp"
-            android:layout_marginTop="852dp"
-            android:backgroundTint="#323F8E"
-            android:onClick="regresarMenu"
-            android:text="Eliminar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.275"
-            app:layout_constraintStart_toEndOf="@+id/crearCuentaTitulo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/btn_Buscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#323F8E"
-            android:text="Buscar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.081"
-            app:layout_constraintStart_toEndOf="@+id/crearCuentaTitulo"
-            app:layout_constraintTop_toTopOf="@+id/crearCuentaTitulo" />
-
-        <Button
-            android:id="@+id/btn_actualizar"
-            android:layout_width="167dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="240dp"
-            android:backgroundTint="#323F8E"
-            android:text="Actualizar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/borrarBtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="Borrar"
-            app:layout_constraintBottom_toTopOf="@+id/btn_actualizar"
-            app:layout_constraintEnd_toStartOf="@+id/cancBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtpassword" />
-
-        <Button
-            android:id="@+id/cancBtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:onClick="regresarMenu"
-            android:text="Cancelar"
-            app:layout_constraintBottom_toBottomOf="@+id/borrarBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/borrarBtn"
-            app:layout_constraintTop_toTopOf="@+id/borrarBtn"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <!-- Cédula -->
+        tools:context=".ControlUsuario.ConsultarUsuarioActivity">
 
         <TextView
             android:id="@+id/crearCuentaTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:fontFamily="sans-serif-condensed"
             android:text="Buscar Usuario"
             android:textSize="28sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_Buscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:backgroundTint="#323F8E"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/crearCuentaTitulo" />
+
+        <!-- CÉDULA -->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/cedulaInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="Cédula"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/crearCuentaTitulo">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -116,209 +54,200 @@
                 android:maxLength="10" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Nombres -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nombresInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Nombres"
-            app:layout_constraintTop_toBottomOf="@+id/cedulaInputLayout">
+        <!-- CONTENEDOR OCULTO -->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nombresInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Apellidos -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/apellidosInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Apellidos"
-            app:layout_constraintTop_toBottomOf="@+id/nombresInputLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/apellidosInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Edad -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edadInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Edad"
-            app:layout_constraintTop_toBottomOf="@+id/apellidosInputLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edadInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="3" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Nacionalidad (Spinner) -->
-        <TextView
-            android:id="@+id/nacionalidadLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Nacionalidad"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edadInputLayout" />
-
-        <Spinner
-            android:id="@+id/nacionalidadSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@+id/nacionalidadLabel" />
-
-        <!-- Género (Spinner) -->
-        <TextView
-            android:id="@+id/generoLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Género"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nacionalidadSpinner" />
-
-        <Spinner
-            android:id="@+id/generoSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@+id/generoLabel" />
-
-        <!-- Estado Civil (Radio Buttons) -->
-        <TextView
-            android:id="@+id/estadoCivilLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Estado Civil"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/generoSpinner" />
-
-        <RadioGroup
-            android:id="@+id/estadoCivilGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/estadoCivilLabel">
-
-            <RadioButton
-                android:id="@+id/radioSoltero"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Soltero/a" />
-
-            <RadioButton
-                android:id="@+id/radioCasado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Casado/a" />
-        </RadioGroup>
-
-        <!-- Fecha de Nacimiento -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fechaNacLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
+            android:id="@+id/layoutDatosUsuario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:hint="Fecha de Nacimiento"
-            app:layout_constraintEnd_toStartOf="@+id/fechaBtn"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/estadoCivilGroup">
+            app:layout_constraintTop_toBottomOf="@+id/cedulaInputLayout">
+
+            <!-- NOMBRES -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombres">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nombresInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- APELLIDOS -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Apellidos">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/apellidosInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- EDAD -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Edad">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edadInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- NACIONALIDAD -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Nacionalidad"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/nacionalidadSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
+            <!-- GENERO -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Género"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/generoSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
+            <!-- ESTADO CIVIL -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Estado Civil"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/estadoCivilGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioSoltero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Soltero" />
+
+                <RadioButton
+                    android:id="@+id/radioCasado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Casado" />
+            </RadioGroup>
+
+            <!-- FECHA -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Fecha de Nacimiento"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fechaNacInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:focusable="false" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:focusable="false"
+                android:hint="Seleccionar fecha" />
 
-        <!-- Nivel de Inglés -->
-        <ImageButton
-            android:id="@+id/fechaBtn"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@android:drawable/ic_menu_my_calendar"
-            app:layout_constraintBottom_toBottomOf="@+id/fechaNacLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fechaNacLayout"
-            app:layout_constraintVertical_bias="0.0" />
+            <!-- NIVEL INGLES -->
 
-        <!-- Botones -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Nivel de Inglés"
+                android:textStyle="bold" />
 
-        <RatingBar
-            android:id="@+id/nivelInglesRating"
-            style="?android:attr/ratingBarStyleIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:stepSize="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesLabel" />
+            <RatingBar
+                android:id="@+id/nivelInglesRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1" />
 
-        <TextView
-            android:id="@+id/nivelInglesLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="28dp"
-            android:text="Nivel de Inglés"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fechaNacLayout" />
+            <!-- USUARIO -->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Usuario"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Usuario" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtpassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="76dp"
-            android:hint="Contraseña"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating" />
+            <!-- PASSWORD -->
 
-        <!-- Botones -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Contraseña" />
+
+            <!-- BOTONES -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_actualizar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Actualizar"
+                    android:backgroundTint="#323F8E" />
+
+                <Button
+                    android:id="@+id/btn_eliminar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Eliminar"
+                    android:backgroundTint="#323F8E" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

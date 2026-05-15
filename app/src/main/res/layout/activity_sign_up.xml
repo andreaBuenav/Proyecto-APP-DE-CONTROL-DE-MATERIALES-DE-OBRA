@@ -32,12 +32,12 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
             android:layout_marginEnd="4dp"
             android:text="Borrar"
+            app:layout_constraintBottom_toTopOf="@+id/btn_actualizar"
             app:layout_constraintEnd_toStartOf="@+id/cancBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_actualizar" />
+            app:layout_constraintTop_toBottomOf="@+id/mostrarBtn" />
 
         <Button
             android:id="@+id/btn_actualizar"
@@ -259,33 +259,17 @@
         <!-- Botones -->
 
         <Button
-            android:id="@+id/btn_actualizar"
-            android:layout_width="174dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="156dp"
-            android:layout_marginEnd="4dp"
-            android:backgroundTint="#323F8E"
-            android:text="Registrar"
-            app:layout_constraintBottom_toTopOf="@+id/btn_actualizar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.082"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nivelInglesRating"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
             android:id="@+id/mostrarBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:backgroundTint="#323F8E"
             android:text="Mostrar"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_actualizar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/btn_actualizar"
-            app:layout_constraintTop_toTopOf="@+id/btn_actualizar"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPassword"
+            app:layout_constraintVertical_bias="0.204" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtUsuario"
@@ -303,7 +287,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="76dp"
-            android:hint="Usuario"
+            android:hint="Contraseña"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

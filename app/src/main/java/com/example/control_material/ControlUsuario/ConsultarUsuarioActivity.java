@@ -1,10 +1,13 @@
 package com.example.control_material.ControlUsuario;
+
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -14,10 +17,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.control_material.BaseDatosSQLite;
-import com.example.control_material.LoginActivity;
 import com.example.control_material.MainActivity;
 import com.example.control_material.R;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Calendar;
 
 public class ConsultarUsuarioActivity extends AppCompatActivity {
 
@@ -31,6 +35,8 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
     RatingBar ratingBar;
 
     Button buscarBtn, actualizarBtn, eliminarBtn;
+
+    LinearLayout layoutDatosUsuario;
 
     BaseDatosSQLite db;
 
@@ -47,11 +53,15 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
 
         cargarSpinners();
 
+        layoutDatosUsuario.setVisibility(View.GONE);
+
         buscarBtn.setOnClickListener(v -> buscarUsuario());
 
         actualizarBtn.setOnClickListener(v -> actualizarUsuario());
 
         eliminarBtn.setOnClickListener(v -> eliminarUsuario());
+
+        fechaInput.setOnClickListener(v -> mostrarDatePicker());
     }
 
     private void inicializarComponentes(){
@@ -74,6 +84,8 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
         buscarBtn = findViewById(R.id.btn_Buscar);
         actualizarBtn = findViewById(R.id.btn_actualizar);
         eliminarBtn = findViewById(R.id.btn_eliminar);
+
+        layoutDatosUsuario = findViewById(R.id.layoutDatosUsuario);
     }
 
     private void cargarSpinners(){
@@ -86,6 +98,8 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
                 nacionalidades
         );
 
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         nacionalidadSpinner.setAdapter(adapter1);
 
         String[] generos = {"Masculino", "Femenino"};
@@ -96,16 +110,29 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
                 generos
         );
 
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         generoSpinner.setAdapter(adapter2);
     }
 
     private void buscarUsuario(){
 
-        String cedula = cedulaInput.getText().toString();
+        String cedula = cedulaInput.getText().toString().trim();
+
+        if(cedula.isEmpty()){
+
+            Toast.makeText(this,
+                    "Ingrese una cédula",
+                    Toast.LENGTH_SHORT).show();
+
+            return;
+        }
 
         Cursor cursor = db.buscarUsuarioPorCedula(cedula);
 
         if(cursor.moveToFirst()){
+
+            layoutDatosUsuario.setVisibility(View.VISIBLE);
 
             usuarioId = cursor.getInt(0);
 
@@ -148,6 +175,8 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
 
         }else{
 
+            layoutDatosUsuario.setVisibility(View.GONE);
+
             Toast.makeText(this,
                     "Usuario no encontrado",
                     Toast.LENGTH_SHORT).show();
@@ -180,13 +209,11 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
 
         String fecha = fechaInput.getText().toString();
 
-        String estadoCivil = "";
-
         int radioSeleccionado = estadoCivilGroup.getCheckedRadioButtonId();
 
         RadioButton radioButton = findViewById(radioSeleccionado);
 
-        estadoCivil = radioButton.getText().toString();
+        String estadoCivil = radioButton.getText().toString();
 
         String username = usuarioInput.getText().toString();
         String password = passwordInput.getText().toString();
@@ -202,7 +229,8 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
                 genero,
                 fecha,
                 estadoCivil,
-                username, password,
+                username,
+                password,
                 nivel
         );
 
@@ -241,6 +269,8 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
 
             limpiarCampos();
 
+            layoutDatosUsuario.setVisibility(View.GONE);
+
         }else{
 
             Toast.makeText(this,
@@ -256,6 +286,7 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
         edadInput.setText("");
         fechaInput.setText("");
         usuarioInput.setText("");
+        passwordInput.setText("");
 
         ratingBar.setRating(0);
 
@@ -275,9 +306,38 @@ public class ConsultarUsuarioActivity extends AppCompatActivity {
         return 0;
     }
 
+    private void mostrarDatePicker(){
+
+        Calendar calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+
+                    String fecha = selectedDay + "/"
+                            + (selectedMonth + 1) + "/"
+                            + selectedYear;
+
+                    fechaInput.setText(fecha);
+                },
+                year,
+                month,
+                day
+        );
+
+        datePickerDialog.show();
+    }
+
     public void regresarMenu(View v) {
+
         Intent menu = new Intent(this, MainActivity.class);
+
         startActivity(menu);
+
         finish();
     }
 }
