@@ -25,15 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"/>
-        <!-- STOCK -->
-        <TextView
-            android:id="@+id/tvStock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stock actual: 0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+
         <!-- CANTIDAD -->
         <EditText
             android:id="@+id/etCantidad"
@@ -44,16 +36,13 @@
             android:layout_marginBottom="16dp"/>
 
         <!-- PRECIO -->
-        <TextView
-            android:id="@+id/tvPrecioMaterial"
+        <EditText
+            android:id="@+id/etPrecio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Precio: $0.00"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#1565C0"
-            android:padding="8dp"
-            android:layout_marginTop="8dp"/>
+            android:hint="Precio Unitario"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="16dp"/>
 
         <!-- OBSERVACION -->
         <EditText
@@ -65,19 +54,13 @@
             android:gravity="top"
             android:layout_marginBottom="20dp"/>
 
-        <!-- BOTON GUARDAR -->
+        <!-- BOTON -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar Entrada"/>
-        <!-- BOTON VER HISTORIAL -->
-        <Button
-            android:id="@+id/btnHistorial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ver Historial"
-            android:layout_marginTop="12dp"/>
+
     </LinearLayout>
 
 </ScrollView>
